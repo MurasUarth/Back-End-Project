@@ -1,21 +1,19 @@
-const { MongoClient, ObjectId } = require('mongodb')
-
-const url = "mongodb://localhost:27017";
-const client = new MongoClient(url);
+const { MongoClient, ObjectId } = require("mongodb");
 
 class Database {
-  
-  async run (limit, skip) {
+  constructor() {
+    this.url = "mongodb://localhost:27017";
+    this.client = new MongoClient(this.url);
+  }
 
+  async run(limit, skip) {
     await client.connect();
 
     const db = client.db("movie_rental");
     const moviesCollection = db.collection("movies");
 
-    const cursor = moviesCollection
-      .find("")
-      .project({ title: 1 })
-      .sort({ title: 1 });
+    const cursor = moviesCollection.find("").project({ title: 1 }).sort({ title: 1 });
+
     if (limit) {
       cursor.limit(limit);
     }
@@ -29,26 +27,25 @@ class Database {
     console.log(movies);
   }
 
-  async listMovies () {
+  async getCollection(collectionName) {
+    const db = client.db("movie_rental");
+    this.collection = db.collection(collectionName);
 
-    await client.connect();
+    return this.collection;
+  }
 
+  async listMovies() {
     const db = client.db("movie_rental");
     const moviesCollection = db.collection("movies");
 
-    const result = moviesCollection
-      .find("")
-      .project({ title: 1 })
-      .sort({ title: 1 });
-    
-    return result;
+    const result = moviesCollection.find("").project({ title: 1 }).sort({ title: 1 });
 
     console.log(result);
+
+    return result;
   }
 
-  async insertMovie (movie) {
-    await client.connect();
-
+  async insertMovie(movie) {
     const db = client.db("movie_rental");
     const moviesCollection = db.collection("movies");
 
@@ -57,9 +54,7 @@ class Database {
     console.log(result);
   }
 
-  async deleteMovieById (id) {
-    await client.connect();
-
+  async deleteMovieById(id) {
     const db = client.db("movie_rental");
     const moviesCollection = db.collection("movies");
 
@@ -69,4 +64,4 @@ class Database {
   }
 }
 
-module.exports = Database;
+module.exports = new Database();
