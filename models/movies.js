@@ -6,13 +6,13 @@ class MoviesModel extends Model {
     super("movies");
   }
 
-  static async listMovies() {
+  async listMovies() {
     const result = await Database.listMovies();
 
     return result;
   }
 
-  static async insertMovie(movie) {
+  async insertMovie(movie) {
     const insertedMovie = await Database.insertMovie(movie);
 
     return insertedMovie;

@@ -7,9 +7,9 @@ class Database {
   }
 
   async run(limit, skip) {
-    await client.connect();
+    await this.client.connect();
 
-    const db = client.db("movie_rental");
+    const db = this.client.db("movie_rental");
     const moviesCollection = db.collection("movies");
 
     const cursor = moviesCollection.find("").project({ title: 1 }).sort({ title: 1 });
@@ -28,14 +28,14 @@ class Database {
   }
 
   async getCollection(collectionName) {
-    const db = client.db("movie_rental");
+    const db = this.client.db("movie_rental");
     this.collection = db.collection(collectionName);
 
     return this.collection;
   }
 
   async listMovies() {
-    const db = client.db("movie_rental");
+    const db = this.client.db("movie_rental");
     const moviesCollection = db.collection("movies");
 
     const result = moviesCollection.find("").project({ title: 1 }).sort({ title: 1 });
@@ -46,7 +46,7 @@ class Database {
   }
 
   async insertMovie(movie) {
-    const db = client.db("movie_rental");
+    const db = this.client.db("movie_rental");
     const moviesCollection = db.collection("movies");
 
     const result = await moviesCollection.insertOne(movie);
@@ -55,7 +55,7 @@ class Database {
   }
 
   async deleteMovieById(id) {
-    const db = client.db("movie_rental");
+    const db = this.client.db("movie_rental");
     const moviesCollection = db.collection("movies");
 
     const result = moviesCollection.deleteOne(ObjectId(id));
