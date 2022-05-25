@@ -6,16 +6,49 @@ class MoviesModel extends Model {
     super("movies");
   }
 
-  async listMovies() {
-    const result = await Database.listMovies();
+  async insertMovie(movie) {
+    const db = Database.client.db("movie_rental");
+    const moviesCollection = db.collection(this.collectionName);
 
-    return result;
+    const result = await moviesCollection.insertOne(movie);
+
+    console.log(result);
   }
 
-  async insertMovie(movie) {
-    const insertedMovie = await Database.insertMovie(movie);
+  async deleteMovieById(id) {
+    const db = Database.client.db("movie_rental");
+    const moviesCollection = db.collection(this.collectionName);
+    const toBeDeleted = await this.findById(id);
 
-    return insertedMovie;
+    const result = moviesCollection.deleteOne(toBeDeleted);
+
+    console.log(result);
+  }
+
+  async listMovies(limit, skip, available, title) {
+    const db = Database.client.db("movie_rental");
+    const moviesCollection = db.collection("movies");
+
+    const cursor = moviesCollection.find("").project({ title: 1 }).sort({ title: 1 });
+
+    if (limit) {
+      cursor.limit(limit);
+    }
+
+    if (skip) {
+      cursor.skip(skip);
+    }
+
+    if (title) {
+      cursor.includes(title);
+    }
+
+    if (available) {
+    }
+
+    const movies = await cursor.toArray();
+
+    console.log(movies);
   }
 }
 

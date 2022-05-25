@@ -6,25 +6,8 @@ class Database {
     this.client = new MongoClient(this.url);
   }
 
-  async run(limit, skip) {
+  async run() {
     await this.client.connect();
-
-    const db = this.client.db("movie_rental");
-    const moviesCollection = db.collection("movies");
-
-    const cursor = moviesCollection.find("").project({ title: 1 }).sort({ title: 1 });
-
-    if (limit) {
-      cursor.limit(limit);
-    }
-
-    if (skip) {
-      cursor.skip(skip);
-    }
-
-    const movies = await cursor.toArray();
-
-    console.log(movies);
   }
 
   async getCollection(collectionName) {
@@ -32,35 +15,6 @@ class Database {
     this.collection = db.collection(collectionName);
 
     return this.collection;
-  }
-
-  async listMovies() {
-    const db = this.client.db("movie_rental");
-    const moviesCollection = db.collection("movies");
-
-    const result = moviesCollection.find("").project({ title: 1 }).sort({ title: 1 });
-
-    console.log(result);
-
-    return result;
-  }
-
-  async insertMovie(movie) {
-    const db = this.client.db("movie_rental");
-    const moviesCollection = db.collection("movies");
-
-    const result = await moviesCollection.insertOne(movie);
-
-    console.log(result);
-  }
-
-  async deleteMovieById(id) {
-    const db = this.client.db("movie_rental");
-    const moviesCollection = db.collection("movies");
-
-    const result = moviesCollection.deleteOne(ObjectId(id));
-
-    console.log(result);
   }
 }
 

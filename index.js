@@ -2,6 +2,7 @@ const express = require("express");
 const server = express();
 const bodyParser = require("body-parser");
 const MoviesRouter = require("./services/movies");
+const MovieUnitsRouter = require("./services/movieUnits");
 const database = require("./utils/database");
 
 server.use(bodyParser.json());
@@ -12,3 +13,4 @@ server.listen(3000, async () => {
 });
 
 server.use("/movies", MoviesRouter);
+server.use("/movie-units", MovieUnitsRouter);

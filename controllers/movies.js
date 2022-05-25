@@ -1,8 +1,14 @@
 const MoviesModel = require("../models/movies");
 
 class MoviesController {
-  async listMovies() {
-    const result = await MoviesModel.listMovies();
+  async listMovies(limit, skip, available, title) {
+    const result = await MoviesModel.listMovies(limit, skip, available, title);
+
+    return result;
+  }
+
+  async deleteMovieById(id) {
+    const result = await MoviesModel.deleteMovieById(id);
 
     return result;
   }

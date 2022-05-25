@@ -6,12 +6,15 @@ class Model {
     this.collectionName = collectionName;
   }
 
-  get collection() {
+  async getCollection() {
     return database.getCollection(this.collectionName);
   }
 
   async findById(id) {
-    return await this.collection.findOne({ _id: ObjectId(id) });
+    console.log(id);
+    const teste = await this.collection.findOne({ _id: ObjectId(id) });
+
+    return teste;
   }
 }
 
