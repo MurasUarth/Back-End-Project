@@ -12,9 +12,9 @@ class Model {
 
   async findById(id) {
     console.log(id);
-    const teste = await this.collection.findOne({ _id: ObjectId(id) });
+    const target = await this.collection.findOne({ _id: ObjectId(id) });
 
-    return teste;
+    return target;
   }
 }
 

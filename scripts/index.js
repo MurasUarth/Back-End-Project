@@ -1,4 +1,8 @@
 const json = require("./Film.json");
-const insert = require("../services/movies/insert");
+const insert = require("../models/movies");
 
-json.map(() => {});
+json.map((body) => {
+  const { Title, Director } = body;
+  insert.insertMovie({ title: Title, director: Director });
+  console.log(Title, Director);
+});
